@@ -28,13 +28,21 @@ EKSProject
 
 ### Terraform Resources
 VPC
+
 VPC Endpoint
+
 SG
+
 IAM Policies & IAM Roles (IAM Role For Service Account, IRSA)
+
 OIDC
+
 EFS
+
 EC2
+
 EKS Cluster
+
 Worker Node
 
 
