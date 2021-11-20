@@ -1,0 +1,57 @@
+# 1. Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+
+# 2. Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  labels:
+    run: my-nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  type: NodePort
+  selector:
+    run: my-nginx
+
+# 3. Ingress
+# Annotation : https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/ 에서 확인할 수 있다.
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "ingress-app"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: instance     # instance, ip
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/subnets: subnet-0dadeb59620bbcd8f, subnet-0c688f06a54bd09d5
+spec:
+  rules:
+   - http:
+      paths:
+        - path: /*
+          backend:
+            serviceName: "my-nginx"
+            servicePort: 80
