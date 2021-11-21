@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: demo-springboot
+  labels:
+    app: demo-springboot
+  name: demo-springboot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-springboot
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: demo-springboot
+    spec:
+      containers:
+      - image: 323490220842.dkr.ecr.ap-northeast-2.amazonaws.com/demo-maven-springboot:0.1
+        name: demo-maven-springboot
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "0.5"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: demo-springboot
+  labels:
+    app: demo-springboot
+  name: demo-springboot-svc
+spec:
+  ports:
+  - name: demo-springboot-svc-8080
+    port: 8080
+    protocol: TCP
+    nodePort: 30010
+    targetPort: 8080
+  selector:
+    app: demo-springboot
+  type: NodePort

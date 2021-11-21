@@ -106,15 +106,7 @@ variable "worker_disk_size" {
 }
 
 // Tagging
-variable "tags" {
-  type        = map(string)
-  description = "Default tags"
-  default = {
-    "Service"     = "svc"
-    "Environment" = "test"
-    "RegionAlias" = "apne2"
-  }
-}
+variable "tags" { }
 
 variable "owner_tag" {
   type        = string

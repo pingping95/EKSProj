@@ -1,26 +1,27 @@
 // VPC
 module "main_vpc" {
-  source         = "../../modules/vpc"
+  source         = "../terraform/modules/vpc"
   vpc_cidr_block = var.cidr_block
   available_azs  = var.available_azs
   // Subnet Settings
   public_subnet_cidr  = var.public_subnet_cidr
   private_subnet_cidr = var.private_subnet_cidr
   db_subnet_cidr      = var.db_subnet_cidr
+  tags = var.tags
+
   // Tags
   vpc_tags = {
-    "kubernetes.io/cluster/${local.cluster}" = "shared"
+    "kubernetes.io/cluster/${local.name_prefix}-cluster" = "shared"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb"        = "1",
-    "kubernetes.io/cluster/${local.cluster}" = "shared"
-
+    "kubernetes.io/role/internal-elb"                    = 1,
+    "kubernetes.io/cluster/${local.name_prefix}-cluster" = "shared"
   }
 
   public_subnet_tags = {
-    "kubernetes.io/role/elb"                 = "1",
-    "kubernetes.io/cluster/${local.cluster}" = "shared"
+    "kubernetes.io/role/elb"                             = 1,
+    "kubernetes.io/cluster/${local.name_prefix}-cluster" = "shared"
   }
   // Options
   define_eip           = true
