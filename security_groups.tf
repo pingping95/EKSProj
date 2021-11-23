@@ -236,3 +236,39 @@ resource "aws_security_group_rule" "efs" {
     aws_security_group.eks_worker_sg
   ]
 }
+
+
+// 2. Jenkins SG
+resource "aws_security_group" "jenkins" {
+  name        = "${local.name_prefix}-jenkins-sg"
+  description = "Public Jenkins Security Group"
+  vpc_id      = module.main_vpc.vpc_id // Network Configuration
+  tags = {
+    Name = "${local.name_prefix}-jenkins-sg"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+// [Rule] Jenkins SG Inbound
+resource "aws_security_group_rule" "jenkins_cidrs" {
+  type              = "ingress"
+  security_group_id = aws_security_group.jenkins.id
+
+  // Dynamic
+  for_each    = var.jenkins_ingress_rules
+  from_port   = each.value.from
+  to_port     = each.value.to
+  protocol    = each.value.proto
+  cidr_blocks = each.value.cidr
+  description = each.value.desc
+}

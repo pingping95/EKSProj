@@ -7,7 +7,7 @@ module "main_vpc" {
   public_subnet_cidr  = var.public_subnet_cidr
   private_subnet_cidr = var.private_subnet_cidr
   db_subnet_cidr      = var.db_subnet_cidr
-  tags = var.tags
+  tags                = var.tags
 
   // Tags
   vpc_tags = {

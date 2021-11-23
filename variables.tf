@@ -67,14 +67,38 @@ variable "key_pair" {
   default = ""
 }
 
+variable "jenkins" {
+  default = {}
+}
+
+
 #################################################################
 # Security Groups
 #################################################################
+
+// 1. Bastion SG Inbound
 variable "bastion_ingress_rules" {
   description = "Bastion ingresses. From, To, Protocol, Cidrs, Desc"
   type        = list(any)
   default     = []
 }
+
+// 2. Jenkins SG Inbound
+variable "jenkins_ingress_rules" {
+  type = map(object(
+    {
+      from  = number
+      to    = number
+      proto = string
+      cidr  = list(string)
+      desc  = string
+    }
+  ))
+
+  default = {}
+}
+
+
 
 // EKS
 variable "eks_enabled_log_types" {
@@ -106,7 +130,7 @@ variable "worker_disk_size" {
 }
 
 // Tagging
-variable "tags" { }
+variable "tags" {}
 
 variable "owner_tag" {
   type        = string
