@@ -17,7 +17,7 @@ spec:
         app: demo-springboot
     spec:
       containers:
-      - image: 323490220842.dkr.ecr.ap-northeast-2.amazonaws.com/demo-maven-springboot:0.1
+      - image: 323490220842.dkr.ecr.ap-northeast-2.amazonaws.com/demo-maven-springboot:58
         name: demo-maven-springboot
         resources:
           limits:
@@ -37,7 +37,7 @@ metadata:
 spec:
   ports:
   - name: demo-springboot-svc-8080
-    port: 8080
+    port: 80
     protocol: TCP
     nodePort: 30010
     targetPort: 8080
@@ -54,8 +54,9 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:323490220842:certificate/28ff71d5-f0d6-4958-abcb-ece79efb6323
+    alb.ingress.kubernetes.io/tags: createdBy=aws-load-balancer-controller
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
     external-dns.alpha.kubernetes.io/hostname: pingping2.shop
 spec:
@@ -64,5 +65,9 @@ spec:
         paths:
           - path: /*
             backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+          - path: /*
+            backend:
               serviceName: demo-springboot-svc
-              servicePort: 8080
+              servicePort: 80
