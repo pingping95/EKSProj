@@ -27,6 +27,7 @@ EKSProject
 ---
 
 ### Terraform Resources
+
 VPC
 
 VPC Endpoint
@@ -45,5 +46,17 @@ EKS Cluster
 
 Worker Node
 
+EFS
 
-과정은 개인 블로그에 정리 예정.
+...
+
+---
+
+### 과정은 개인 블로그에 정리 예정.
+---
+
+ Terraform으로 EKS Provisioning : https://nyyang.tistory.com/110
+
+ External DNS : https://nyyang.tistory.com/111
+
+ EBS CSI Driver : https://nyyang.tistory.com/112
