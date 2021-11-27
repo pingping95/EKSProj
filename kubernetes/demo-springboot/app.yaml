@@ -17,7 +17,7 @@ spec:
         app: demo-springboot
     spec:
       containers:
-      - image: 323490220842.dkr.ecr.ap-northeast-2.amazonaws.com/demo-maven-springboot:58
+      - image: 323490220842.dkr.ecr.ap-northeast-2.amazonaws.com/demo-maven-springboot:3
         name: demo-maven-springboot
         resources:
           limits:
