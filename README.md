@@ -70,4 +70,6 @@ EFS
 
  EBS CSI Driver : https://nyyang.tistory.com/112
 
- Jenkins CICD : https://nyyang.tistory.com/113
+ Jenkins CI : https://nyyang.tistory.com/113
+
+ ArgoCD  CD : https://nyyang.tistory.com/114
