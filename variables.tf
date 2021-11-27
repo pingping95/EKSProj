@@ -98,6 +98,22 @@ variable "jenkins_ingress_rules" {
   default = {}
 }
 
+// 3. ALB Ingress SG Inbound
+variable "alb_ingress_rules" {
+  type = map(object(
+    {
+      from  = number
+      to    = number
+      proto = string
+      cidr  = list(string)
+      desc  = string
+    }
+  ))
+
+  default = {}
+}
+
+
 
 
 // EKS

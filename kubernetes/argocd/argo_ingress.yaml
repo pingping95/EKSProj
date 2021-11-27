@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: argocd
+  name: demo-argocd-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: alb-01
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:323490220842:certificate/28ff71d5-f0d6-4958-abcb-ece79efb6323
+    alb.ingress.kubernetes.io/tags: createdBy=aws-load-balancer-controller
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 8080}, {"HTTPS":8443}]'
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "8443", "StatusCode": "HTTP_301"}}'
+    external-dns.alpha.kubernetes.io/hostname: pingping2.shop
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: argocd-server
+              servicePort: 443

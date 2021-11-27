@@ -272,3 +272,38 @@ resource "aws_security_group_rule" "jenkins_cidrs" {
   cidr_blocks = each.value.cidr
   description = each.value.desc
 }
+
+// 3. [EKS] ALB Ingress SG
+resource "aws_security_group" "alb-ingress" {
+  name        = "${local.name_prefix}-alb-ingress-sg"
+  description = "Public ALB Ingress Security Group"
+  vpc_id      = module.main_vpc.vpc_id // Network Configuration
+  tags = {
+    Name = "${local.name_prefix}-alb-ingress-sg"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+// [Rule] ALB Ingress Inbound
+resource "aws_security_group_rule" "alb-ingress-cidrs" {
+  type              = "ingress"
+  security_group_id = aws_security_group.alb-ingress.id
+
+  // Dynamic
+  for_each    = var.alb_ingress_rules
+  from_port   = each.value.from
+  to_port     = each.value.to
+  protocol    = each.value.proto
+  cidr_blocks = each.value.cidr
+  description = each.value.desc
+}

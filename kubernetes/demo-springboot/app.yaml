@@ -52,6 +52,7 @@ metadata:
   name: demo-springboot-ingress
   annotations:
     kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: alb-01
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:323490220842:certificate/28ff71d5-f0d6-4958-abcb-ece79efb6323
     alb.ingress.kubernetes.io/tags: createdBy=aws-load-balancer-controller
