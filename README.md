@@ -22,6 +22,8 @@ EKSProject
     Slack 승인 체계
 7. When to use API Gateway
 8. IAM User, IAM Role & awsauth ConfigMap (IAM과 Service Account연동)
+9. 기본적으로 VPC는 EKS와 별도로 구성하는 경우가 일반적임
+    VPC를 별도 프로젝트로 분리하되, S3 Backend에 있는 tfstate로 vpc, route table, subnet 등을 참조하여 해당 프로젝트에서 사용하기
 
 
 ---
@@ -60,3 +62,5 @@ EFS
  External DNS : https://nyyang.tistory.com/111
 
  EBS CSI Driver : https://nyyang.tistory.com/112
+
+ Jenkins CICD : https://nyyang.tistory.com/113
